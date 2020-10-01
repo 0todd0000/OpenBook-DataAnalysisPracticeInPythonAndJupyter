@@ -1,6 +1,4 @@
 .DS_Store
-*.art4
-*.graffle
 .ipynb_checkpoints
 __pycache__/
 *.py[cod]
