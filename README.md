@@ -1,2 +1,2 @@
-# OpenBook-DataAnalysisPracticeInPythonAndJupyter
-Open Textbook: Data Analysis Practice In Python And Jupyter
+# Data Analysis Practice In Python And Jupyter
+### An open, electronic textbook
