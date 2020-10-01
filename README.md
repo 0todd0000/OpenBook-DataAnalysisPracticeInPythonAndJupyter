@@ -1,2 +1,7 @@
-# Data Analysis Practice In Python And Jupyter
-### An open, electronic textbook
+<center>
+    <img src="img/logo.png" alt="image" width="800"/>
+</center>
+
+## An open, electronic textbook
+
+
