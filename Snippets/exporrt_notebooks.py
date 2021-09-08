@@ -15,7 +15,7 @@ def export_ipynb_as_html_embed(fpathIPYNB):
 
 
 # export all notebooks for one lesson:
-lesson       = 2
+lesson       = 8
 dirLESSON    = os.path.join( dirREPO, 'Lessons', f'Lesson{lesson:02}')
 for root,dname,fnames in os.walk(dirLESSON):
 	for f in fnames:

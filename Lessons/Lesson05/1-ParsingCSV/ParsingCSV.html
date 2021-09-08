@@ -1,16 +1,91 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="utf-8" />
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Notebook</title>
+<title>ParsingCSV</title><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<style type="text/css">
+  pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #ffffcc }
+.highlight { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
+  </style>
 
 
 
 <style type="text/css">
-    /*!
+/*!
 *
 * Twitter Bootstrap
 *
@@ -12944,81 +13019,7 @@ ul.typeahead-list  > li > a.pull-right {
 .terminal-app #terminado-container {
   margin-top: 20px;
 }
-/*# sourceMappingURL=style.min.css.map */
-    </style>
-<style type="text/css">
-    .highlight .hll { background-color: #ffffcc }
-.highlight  { background: #f8f8f8; }
-.highlight .c { color: #408080; font-style: italic } /* Comment */
-.highlight .err { border: 1px solid #FF0000 } /* Error */
-.highlight .k { color: #008000; font-weight: bold } /* Keyword */
-.highlight .o { color: #666666 } /* Operator */
-.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
-.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
-.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
-.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
-.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
-.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
-.highlight .gd { color: #A00000 } /* Generic.Deleted */
-.highlight .ge { font-style: italic } /* Generic.Emph */
-.highlight .gr { color: #FF0000 } /* Generic.Error */
-.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
-.highlight .gi { color: #00A000 } /* Generic.Inserted */
-.highlight .go { color: #888888 } /* Generic.Output */
-.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
-.highlight .gs { font-weight: bold } /* Generic.Strong */
-.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
-.highlight .gt { color: #0044DD } /* Generic.Traceback */
-.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
-.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
-.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
-.highlight .kp { color: #008000 } /* Keyword.Pseudo */
-.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
-.highlight .kt { color: #B00040 } /* Keyword.Type */
-.highlight .m { color: #666666 } /* Literal.Number */
-.highlight .s { color: #BA2121 } /* Literal.String */
-.highlight .na { color: #7D9029 } /* Name.Attribute */
-.highlight .nb { color: #008000 } /* Name.Builtin */
-.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
-.highlight .no { color: #880000 } /* Name.Constant */
-.highlight .nd { color: #AA22FF } /* Name.Decorator */
-.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
-.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
-.highlight .nf { color: #0000FF } /* Name.Function */
-.highlight .nl { color: #A0A000 } /* Name.Label */
-.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
-.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
-.highlight .nv { color: #19177C } /* Name.Variable */
-.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
-.highlight .w { color: #bbbbbb } /* Text.Whitespace */
-.highlight .mb { color: #666666 } /* Literal.Number.Bin */
-.highlight .mf { color: #666666 } /* Literal.Number.Float */
-.highlight .mh { color: #666666 } /* Literal.Number.Hex */
-.highlight .mi { color: #666666 } /* Literal.Number.Integer */
-.highlight .mo { color: #666666 } /* Literal.Number.Oct */
-.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
-.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
-.highlight .sc { color: #BA2121 } /* Literal.String.Char */
-.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
-.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
-.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
-.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
-.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
-.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
-.highlight .sx { color: #008000 } /* Literal.String.Other */
-.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
-.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
-.highlight .ss { color: #19177C } /* Literal.String.Symbol */
-.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
-.highlight .fm { color: #0000FF } /* Name.Function.Magic */
-.highlight .vc { color: #19177C } /* Name.Variable.Class */
-.highlight .vg { color: #19177C } /* Name.Variable.Global */
-.highlight .vi { color: #19177C } /* Name.Variable.Instance */
-.highlight .vm { color: #19177C } /* Name.Variable.Magic */
-.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
-    </style>
-
-
+/*# sourceMappingURL=style.min.css.map */</style>
 <style type="text/css">
 /* Overrides of notebook CSS for static HTML export */
 body {
@@ -13030,44 +13031,62 @@ div#notebook {
   overflow: visible;
   border-top: none;
 }@media print {
+  body {
+    margin: 0;
+  }
   div.cell {
     display: block;
     page-break-inside: avoid;
-  } 
-  div.output_wrapper { 
-    display: block;
-    page-break-inside: avoid; 
   }
-  div.output { 
+  div.output_wrapper {
     display: block;
-    page-break-inside: avoid; 
+    page-break-inside: avoid;
+  }
+  div.output {
+    display: block;
+    page-break-inside: avoid;
   }
 }
 </style>
 
-<!-- Custom stylesheet, it must be in the same directory as the html file -->
-<link rel="stylesheet" href="custom.css">
 
-<!-- Loading mathjax macro -->
 <!-- Load mathjax -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS_HTML"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML-full,Safe"> </script>
     <!-- MathJax configuration -->
     <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-            processEscapes: true,
-            processEnvironments: true
-        },
-        // Center justify equations in code and markdown cells. Elsewhere
-        // we use CSS to left justify single line equations in code cells.
-        displayAlign: 'center',
-        "HTML-CSS": {
-            styles: {'.MathJax_Display': {"margin": 0}},
-            linebreaks: { automatic: true }
+    init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: { 
+                    automatic: true 
+                    }
+                },
+                "HTML-CSS": {
+                    linebreaks: { 
+                    automatic: true 
+                    }
+                }
+            });
+        
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
         }
-    });
+    }
+    init_mathjax();
     </script>
     <!-- End of mathjax configuration --></head>
 <body>
@@ -13077,14 +13096,14 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1><span style="color:#54B1FF">Parsing data:</span> &nbsp; <span style="color:#1B3EA9"><b>CSV files</b></span></h1>
+<h1><span style="color:#54B1FF">Parsing data:</span>   <span style="color:#1B3EA9"><b>CSV files</b></span></h1>
 <p><br></p>
 <p>To <strong>parse</strong> means to read and interpret. Parsing a data file means that one reads the file and extracts relevant information from it.</p>
 <p>The CSV or commma-separated value format is one of the most common ways of saving data.</p>
 <p>While high-level packages like <code>numpy</code> and <code>pandas</code> are usually sufficient for parsing CSV files, occasionally CSV files have irregularities that require custom programming.</p>
 <p>This notebook demonstrates both easy CSV reading using <code>numpy</code> and <code>pandas</code>, and lower-level reading</p>
 <p><br></p>
-<p>⚠️ <strong>NOTE!</strong>  &nbsp; &nbsp; All data files are saved in the same directory as this notebook.</p>
+<p>⚠️ <strong>NOTE!</strong>      All data files are saved in the same directory as this notebook.</p>
 <p><br></p>
 
 </div>
@@ -13101,7 +13120,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In [1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span>
@@ -13118,7 +13137,7 @@ div#notebook {
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a name="toc"></a></p>
-<h1 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">&#182;</a></h1><ul>
+<h1 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">¶</a></h1><ul>
 <li><a href="#pd.read_csv">pd.read_csv</a><ul>
 <li><a href="#pd-simple">Simple CSV</a></li>
 <li><a href="#pd-headers">Headers</a></li>
@@ -13158,7 +13177,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="pd.read_csv"></a></p>
-<h1 id="Using-pd.read_csv-to-read-text-files">Using <code>pd.read_csv</code> to read text files<a class="anchor-link" href="#Using-pd.read_csv-to-read-text-files">&#182;</a></h1><p><a href="#toc">Back to Table of Contents</a>
+<h1 id="Using-pd.read_csv-to-read-text-files">Using <code>pd.read_csv</code> to read text files<a class="anchor-link" href="#Using-pd.read_csv-to-read-text-files">¶</a></h1><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>The <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html">pd.read_csv</a> function is the easiest way to read well-formatted text data.</p>
 
@@ -13170,7 +13189,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="pd-simple"></a></p>
-<h2 id="pd.read_csv-Simple-CSV-file"><code>pd.read_csv</code> <span style="background-color:powderblue;">Simple CSV file</span><a class="anchor-link" href="#pd.read_csv-Simple-CSV-file">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a>
+<h2 id="pd.read_csv-Simple-CSV-file"><code>pd.read_csv</code> <span style="background-color:powderblue;">Simple CSV file</span><a class="anchor-link" href="#pd.read_csv-Simple-CSV-file">¶</a></h2><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>The <code>data0.csv</code> file contains the following values:</p>
 <table>
@@ -13222,10 +13241,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In [2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data0.csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'data0.csv'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <span class="n">a</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">df</span> <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span> <span class="n">df</span> <span class="p">)</span>
@@ -13281,7 +13300,7 @@ div#notebook {
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="pd-headers"></a></p>
-<h2 id="pd.read_csv-CSV-file-with-header-rows"><code>pd.read_csv</code> <span style="background-color:powderblue;">CSV file with header rows</span><a class="anchor-link" href="#pd.read_csv-CSV-file-with-header-rows">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a></p>
+<h2 id="pd.read_csv-CSV-file-with-header-rows"><code>pd.read_csv</code> <span style="background-color:powderblue;">CSV file with header rows</span><a class="anchor-link" href="#pd.read_csv-CSV-file-with-header-rows">¶</a></h2><p><a href="#toc">Back to Table of Contents</a></p>
 <p><br></p>
 <p>The <code>data1.csv</code> file contains the following:</p>
 <table>
@@ -13334,10 +13353,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In [3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data1.csv&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'data1.csv'</span><span class="p">)</span>
 <span class="n">a</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">df</span> <span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span> <span class="n">df</span> <span class="p">)</span>
@@ -13389,10 +13408,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In [4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c0</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Before&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">c0</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'Before'</span><span class="p">]</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">c0</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">()</span>
@@ -13434,7 +13453,7 @@ Name: Before, dtype: float64
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="pd-comments"></a></p>
-<h2 id="pd.read_csv-CSV-file-with-comments"><code>pd.read_csv</code> <span style="background-color:powderblue;">CSV file with comments</span><a class="anchor-link" href="#pd.read_csv-CSV-file-with-comments">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a>
+<h2 id="pd.read_csv-CSV-file-with-comments"><code>pd.read_csv</code> <span style="background-color:powderblue;">CSV file with comments</span><a class="anchor-link" href="#pd.read_csv-CSV-file-with-comments">¶</a></h2><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>The <code>data2.csv</code> file contains the following text:</p>
 <p><br></p>
@@ -13457,10 +13476,10 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In [5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data2.csv&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;%&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'data2.csv'</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">'%'</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
@@ -13498,7 +13517,7 @@ PersonID,Before,After
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="np.loadtxt"></a></p>
-<h1 id="Using-np.loadtxt-to-read-text-files">Using <code>np.loadtxt</code> to read text files<a class="anchor-link" href="#Using-np.loadtxt-to-read-text-files">&#182;</a></h1><p><a href="#toc">Back to Table of Contents</a>
+<h1 id="Using-np.loadtxt-to-read-text-files">Using <code>np.loadtxt</code> to read text files<a class="anchor-link" href="#Using-np.loadtxt-to-read-text-files">¶</a></h1><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>The <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.loadtxt.html">np.loadtxt</a> function is the second-easiest way to read well-formatted text data.</p>
 
@@ -13510,7 +13529,7 @@ PersonID,Before,After
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="np.loadtxt-simple-csv"></a></p>
-<h2 id="np.loadtxt-Simple-CSV-file"><code>np.loadtxt</code> <span style="background-color:powderblue;">Simple CSV file</span><a class="anchor-link" href="#np.loadtxt-Simple-CSV-file">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a>
+<h2 id="np.loadtxt-Simple-CSV-file"><code>np.loadtxt</code> <span style="background-color:powderblue;">Simple CSV file</span><a class="anchor-link" href="#np.loadtxt-Simple-CSV-file">¶</a></h2><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>The <code>data0.csv</code> file contains the following values:</p>
 <table>
@@ -13562,10 +13581,10 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In [6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;data0.csv&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">'data0.csv'</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </pre></div>
 
@@ -13600,7 +13619,7 @@ PersonID,Before,After
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><a name="rows-columns"></a></p>
-<h2 id="Getting-rows-/-columns-from-imported-data:"><span style="background-color:powderblue;">Getting rows / columns from imported data:</span><a class="anchor-link" href="#Getting-rows-/-columns-from-imported-data:">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a>
+<h2 id="Getting-rows-/-columns-from-imported-data:"><span style="background-color:powderblue;">Getting rows / columns from imported data:</span><a class="anchor-link" href="#Getting-rows-/-columns-from-imported-data:">¶</a></h2><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 
 </div>
@@ -13608,17 +13627,17 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In [7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">row0</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>   <span class="c1"># first row, same as &quot;row0 = A[0]&quot;</span>
-<span class="n">row1</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span>   <span class="c1"># second row, same as &quot;row1 = A[1]&quot;</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">row0</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span>   <span class="c1"># first row, same as "row0 = A[0]"</span>
+<span class="n">row1</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span>   <span class="c1"># second row, same as "row1 = A[1]"</span>
 
 <span class="n">col2</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:,</span><span class="mi">2</span><span class="p">]</span>   <span class="c1"># third column</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;First row: &#39;</span><span class="p">,</span> <span class="n">row0</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Second row: &#39;</span><span class="p">,</span> <span class="n">row1</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Third column: &#39;</span><span class="p">,</span> <span class="n">col2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'First row: '</span><span class="p">,</span> <span class="n">row0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Second row: '</span><span class="p">,</span> <span class="n">row1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Third column: '</span><span class="p">,</span> <span class="n">col2</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13651,7 +13670,7 @@ Third column:  [10.5 11.8 15.1 18.9 14.1]
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="np.loadtxt-headers"></a></p>
-<h2 id="np.loadtxt-CSV-file-with-header-rows"><code>np.loadtxt</code> <span style="background-color:powderblue;">CSV file with header rows</span><a class="anchor-link" href="#np.loadtxt-CSV-file-with-header-rows">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a></p>
+<h2 id="np.loadtxt-CSV-file-with-header-rows"><code>np.loadtxt</code> <span style="background-color:powderblue;">CSV file with header rows</span><a class="anchor-link" href="#np.loadtxt-CSV-file-with-header-rows">¶</a></h2><p><a href="#toc">Back to Table of Contents</a></p>
 <p><br></p>
 <p>The <code>data1.csv</code> file contains the following:</p>
 <table>
@@ -13704,10 +13723,10 @@ Third column:  [10.5 11.8 15.1 18.9 14.1]
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In [8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;data1.csv&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">'data1.csv'</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">','</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </pre></div>
 
@@ -13743,7 +13762,7 @@ Third column:  [10.5 11.8 15.1 18.9 14.1]
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="np.loadtxt-comments"></a></p>
-<h2 id="np.loadtxt-CSV-file-with-comments"><code>np.loadtxt</code> <span style="background-color:powderblue;">CSV file with comments</span><a class="anchor-link" href="#np.loadtxt-CSV-file-with-comments">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a>
+<h2 id="np.loadtxt-CSV-file-with-comments"><code>np.loadtxt</code> <span style="background-color:powderblue;">CSV file with comments</span><a class="anchor-link" href="#np.loadtxt-CSV-file-with-comments">¶</a></h2><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>The <code>data2.csv</code> file contains the following text:</p>
 <p><br></p>
@@ -13766,10 +13785,10 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In [9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;data2.csv&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%%</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">'data2.csv'</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">','</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">'</span><span class="si">%%</span><span class="s1">'</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </pre></div>
 
@@ -13805,7 +13824,7 @@ PersonID,Before,After
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="csv"></a></p>
-<h1 id="csv">csv<a class="anchor-link" href="#csv">&#182;</a></h1><p><a href="#toc">Back to Table of Contents</a>
+<h1 id="csv">csv<a class="anchor-link" href="#csv">¶</a></h1><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>Python's native <a href="https://docs.python.org/2/library/csv.html">csv</a> package offers a more comprehensive, albeit more complex, way to deal with CSV files.</p>
 
@@ -13817,7 +13836,7 @@ PersonID,Before,After
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="csv-simple-csv"></a></p>
-<h2 id="csv-Simple-CSV"><code>csv</code> <span style="background-color:powderblue;">Simple CSV</span><a class="anchor-link" href="#csv-Simple-CSV">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a>
+<h2 id="csv-Simple-CSV"><code>csv</code> <span style="background-color:powderblue;">Simple CSV</span><a class="anchor-link" href="#csv-Simple-CSV">¶</a></h2><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>Let's reconsider the <code>data0.csv</code> file:</p>
 <table>
@@ -13862,11 +13881,11 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In [10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data0.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>             <span class="c1"># open the file (&quot;with&quot; automatically closes the file)</span>
-    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>  <span class="c1"># a CSV reader objects</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data0.csv'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>             <span class="c1"># open the file ("with" automatically closes the file)</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span>  <span class="c1"># a CSV reader objects</span>
     <span class="n">rows</span>   <span class="o">=</span> <span class="p">[</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">]</span>             <span class="c1"># all text rows</span>
     <span class="n">a</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span> <span class="p">)</span>       <span class="c1"># convert rows of text to an array of float numbers</span>
 
@@ -13905,7 +13924,7 @@ PersonID,Before,After
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="csv-headers"></a></p>
-<h2 id="csv-CSV-with-header-rows"><code>csv</code> <span style="background-color:powderblue;">CSV with header rows</span><a class="anchor-link" href="#csv-CSV-with-header-rows">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a>
+<h2 id="csv-CSV-with-header-rows"><code>csv</code> <span style="background-color:powderblue;">CSV with header rows</span><a class="anchor-link" href="#csv-CSV-with-header-rows">¶</a></h2><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>Let's reconsider the <code>data1.csv</code> file:</p>
 <table>
@@ -13950,11 +13969,11 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In [11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data1.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>             <span class="c1"># open the file (&quot;with&quot; automatically closes the file)</span>
-    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>  <span class="c1"># a CSV reader objects</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data1.csv'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>             <span class="c1"># open the file ("with" automatically closes the file)</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span>  <span class="c1"># a CSV reader objects</span>
     <span class="n">rows</span>   <span class="o">=</span> <span class="p">[</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">]</span>             <span class="c1"># all text rows</span>
     <span class="n">a</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">rows</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span> <span class="p">)</span>   <span class="c1"># ignore first row</span>
 
@@ -13993,7 +14012,7 @@ PersonID,Before,After
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="csv-comments"></a></p>
-<h2 id="csv-CSV-with-comments"><code>csv</code> <span style="background-color:powderblue;">CSV with comments</span><a class="anchor-link" href="#csv-CSV-with-comments">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a>
+<h2 id="csv-CSV-with-comments"><code>csv</code> <span style="background-color:powderblue;">CSV with comments</span><a class="anchor-link" href="#csv-CSV-with-comments">¶</a></h2><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>The <code>data2.csv</code> file contains the following text:</p>
 <p><br></p>
@@ -14015,14 +14034,14 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In [12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data2.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>             <span class="c1"># open the file (&quot;with&quot; automatically closes the file)</span>
-    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>  <span class="c1"># a CSV reader objects</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data2.csv'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">csvfile</span><span class="p">:</span>             <span class="c1"># open the file ("with" automatically closes the file)</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">csvfile</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">','</span><span class="p">)</span>  <span class="c1"># a CSV reader objects</span>
     <span class="n">rows</span>   <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%%</span><span class="s1">&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'</span><span class="si">%%</span><span class="s1">'</span><span class="p">):</span>
             <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
     <span class="n">a</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">rows</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span> <span class="p">)</span>   <span class="c1"># ignore first row</span>
 
@@ -14061,7 +14080,7 @@ PersonID,Before,After
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="open"></a></p>
-<h1 id="open">open<a class="anchor-link" href="#open">&#182;</a></h1><p><a href="#toc">Back to Table of Contents</a>
+<h1 id="open">open<a class="anchor-link" href="#open">¶</a></h1><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>The <code>open</code> command provides the most flexible way to read data from text files.</p>
 <p>The <code>open</code> command was used above to create a file object <code>csvfile</code>, and then <code>csvfile</code> was read using <code>csv.reader</code>. However, <code>csv.reader</code> is not necessary. Instead the data can be read as strings as shown below.</p>
@@ -14074,7 +14093,7 @@ PersonID,Before,After
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="open-simple-csv"></a></p>
-<h2 id="open-Simple-CSV"><code>open</code> <span style="background-color:powderblue;">Simple CSV</span><a class="anchor-link" href="#open-Simple-CSV">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a>
+<h2 id="open-Simple-CSV"><code>open</code> <span style="background-color:powderblue;">Simple CSV</span><a class="anchor-link" href="#open-Simple-CSV">¶</a></h2><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>The easiest way to read data is to read all of the lines at once, then parse the lines afterwards, as shown below.</p>
 <p>⚠️  This is usually only possible when the data file is not very large (e.g. less than 2 MB).</p>
@@ -14121,10 +14140,10 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In [13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data0.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>             <span class="c1"># open the file (&quot;with&quot; automatically closes the file)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data0.csv'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>             <span class="c1"># open the file ("with" automatically closes the file)</span>
     <span class="n">lines</span>  <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
@@ -14144,7 +14163,7 @@ PersonID,Before,After
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;1,10.1,10.5\n&#39;, &#39;2,9.8,11.8\n&#39;, &#39;3,12.1,15.1\n&#39;, &#39;4,18.5,18.9\n&#39;, &#39;5,12.8,14.1&#39;]
+<pre>['1,10.1,10.5\n', '2,9.8,11.8\n', '3,12.1,15.1\n', '4,18.5,18.9\n', '5,12.8,14.1']
 </pre>
 </div>
 </div>
@@ -14163,12 +14182,12 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In [14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="p">)</span>     <span class="c1"># removes unneeded characters like &quot;newline&quot; (/n)</span>
-<span class="nb">print</span><span class="p">(</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="p">)</span>  <span class="c1"># separates the values into a list</span>
+<span class="nb">print</span><span class="p">(</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="p">)</span>     <span class="c1"># removes unneeded characters like "newline" (/n)</span>
+<span class="nb">print</span><span class="p">(</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span> <span class="p">)</span>  <span class="c1"># separates the values into a list</span>
 </pre></div>
 
     </div>
@@ -14186,7 +14205,7 @@ PersonID,Before,After
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>1,10.1,10.5
-[&#39;1&#39;, &#39;10.1&#39;, &#39;10.5\n&#39;]
+['1', '10.1', '10.5\n']
 </pre>
 </div>
 </div>
@@ -14205,10 +14224,10 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In [15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span> <span class="p">)</span>
 </pre></div>
 
     </div>
@@ -14225,7 +14244,7 @@ PersonID,Before,After
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;1&#39;, &#39;10.1&#39;, &#39;10.5&#39;]
+<pre>['1', '10.1', '10.5']
 </pre>
 </div>
 </div>
@@ -14244,10 +14263,10 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In [16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span> <span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">','</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span> <span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 </pre></div>
 
@@ -14284,12 +14303,12 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In [17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data0.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data0.csv'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
     <span class="n">lines</span>  <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-    <span class="n">rows</span>   <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+    <span class="n">rows</span>   <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
     <span class="n">a</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -14327,7 +14346,7 @@ PersonID,Before,After
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="open-headers"></a></p>
-<h2 id="open-Headers"><code>open</code> <span style="background-color:powderblue;">Headers</span><a class="anchor-link" href="#open-Headers">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a>
+<h2 id="open-Headers"><code>open</code> <span style="background-color:powderblue;">Headers</span><a class="anchor-link" href="#open-Headers">¶</a></h2><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>When there are <code>n</code> header rows, skip them using <code>lines[n:]</code> as follows:</p>
 
@@ -14336,12 +14355,12 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In [18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data1.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data1.csv'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
     <span class="n">lines</span>  <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-    <span class="n">rows</span>   <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>  <span class="c1"># skip the first row</span>
+    <span class="n">rows</span>   <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>  <span class="c1"># skip the first row</span>
     <span class="n">a</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -14379,7 +14398,7 @@ PersonID,Before,After
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="open-comments"></a></p>
-<h2 id="open-Comments"><code>open</code> <span style="background-color:powderblue;">Comments</span><a class="anchor-link" href="#open-Comments">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a>
+<h2 id="open-Comments"><code>open</code> <span style="background-color:powderblue;">Comments</span><a class="anchor-link" href="#open-Comments">¶</a></h2><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>When there are comments, use <code>startwith</code> to ignore unneeded lines.</p>
 
@@ -14388,16 +14407,16 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In [19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data2.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data2.csv'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
     <span class="n">lines</span>   <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
     <span class="n">rows</span>    <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="mi">2</span><span class="p">:]:</span>    <span class="c1"># skip the first two rows</span>
-        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%%</span><span class="s1">&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'</span><span class="si">%%</span><span class="s1">'</span><span class="p">):</span>
             <span class="k">continue</span>
-        <span class="n">row</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span>
         <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">row</span> <span class="p">)</span>
     <span class="n">a</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
@@ -14441,27 +14460,27 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In [20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">myload</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
         <span class="n">lines</span>   <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
     <span class="n">rows</span>    <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="n">skiprows</span><span class="p">:]:</span>
         <span class="k">if</span> <span class="n">comments</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">comments</span><span class="p">):</span>
                 <span class="k">continue</span>
-        <span class="n">row</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="n">row</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span>
         <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">row</span> <span class="p">)</span>
     <span class="n">a</span>      <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">a</span>
 
 
 
-<span class="n">a0</span>        <span class="o">=</span> <span class="n">myload</span><span class="p">(</span><span class="s1">&#39;data0.csv&#39;</span><span class="p">)</span>
-<span class="n">a1</span>        <span class="o">=</span> <span class="n">myload</span><span class="p">(</span><span class="s1">&#39;data1.csv&#39;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">a2</span>        <span class="o">=</span> <span class="n">myload</span><span class="p">(</span><span class="s1">&#39;data2.csv&#39;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%%</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">a0</span>        <span class="o">=</span> <span class="n">myload</span><span class="p">(</span><span class="s1">'data0.csv'</span><span class="p">)</span>
+<span class="n">a1</span>        <span class="o">=</span> <span class="n">myload</span><span class="p">(</span><span class="s1">'data1.csv'</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">a2</span>        <span class="o">=</span> <span class="n">myload</span><span class="p">(</span><span class="s1">'data2.csv'</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">'</span><span class="si">%%</span><span class="s1">'</span><span class="p">)</span>
 
 
 <span class="nb">print</span><span class="p">(</span><span class="n">a0</span><span class="p">)</span>
@@ -14515,7 +14534,7 @@ PersonID,Before,After
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="open-complex"></a></p>
-<h2 id="open-Complex-text-file"><code>open</code> <span style="background-color:powderblue;">Complex text file</span><a class="anchor-link" href="#open-Complex-text-file">&#182;</a></h2><p><a href="#toc">Back to Table of Contents</a>
+<h2 id="open-Complex-text-file"><code>open</code> <span style="background-color:powderblue;">Complex text file</span><a class="anchor-link" href="#open-Complex-text-file">¶</a></h2><p><a href="#toc">Back to Table of Contents</a>
 <br></p>
 <p>Occasionally data files can be very poorly formatted, making it difficult to use <code>np.loadtxt</code> and <code>csv.reader</code>.  For such cases, <code>open</code> is usually the only option.</p>
 <p>Here is an example of a poorly formatted text file (<code>data3.csv</code>):</p>
@@ -14552,25 +14571,25 @@ PersonID,Before,After
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In [21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data3.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'data3.csv'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">fid</span><span class="p">:</span>
     <span class="n">lines</span>   <span class="o">=</span> <span class="n">fid</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
 
 <span class="n">rows</span>    <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">[</span><span class="mi">3</span><span class="p">:]:</span>
-    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;%&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'%'</span><span class="p">)</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'#'</span><span class="p">):</span>
         <span class="k">continue</span>
-    <span class="n">row</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>   <span class="c1"># row has fewer than 3 columns</span>
         <span class="k">continue</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>   <span class="c1"># row has more than 3 columns</span>
-        <span class="n">row</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span> <span class="n">row</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="p">)</span>   <span class="c1"># remove the empty entry</span>
+        <span class="n">row</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span> <span class="n">row</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">''</span><span class="p">)</span> <span class="p">)</span>   <span class="c1"># remove the empty entry</span>
     <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">row</span> <span class="p">)</span>
 
 <span class="n">a</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>  <span class="c1"># string array</span>
-<span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="o">==</span><span class="s1">&#39;&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;nan&#39;</span>   <span class="c1"># set empty entries to &quot;nan&quot;  (not a number)</span>
+<span class="n">a</span><span class="p">[</span><span class="n">a</span><span class="o">==</span><span class="s1">''</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'nan'</span>   <span class="c1"># set empty entries to "nan"  (not a number)</span>
 <span class="n">a</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -14608,7 +14627,7 @@ PersonID,Before,After
 <div class="text_cell_render border-box-sizing rendered_html">
 <hr>
 <p><a name="summary"></a></p>
-<h1 id="Summary">Summary<a class="anchor-link" href="#Summary">&#182;</a></h1><p><a href="#toc">Back to Table of Contents</a></p>
+<h1 id="Summary">Summary<a class="anchor-link" href="#Summary">¶</a></h1><p><a href="#toc">Back to Table of Contents</a></p>
 <ul>
 <li><p>This notebook has demonstrated how to <strong>parse</strong> (i.e., read and interpret) a variety of relatively simple CSV files.</p>
 </li>
@@ -14632,6 +14651,9 @@ PersonID,Before,After
     </div>
   </div>
 </body>
+
+
+
 
  
 
